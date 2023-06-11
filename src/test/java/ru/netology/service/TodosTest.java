@@ -4,11 +4,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.netology.objects.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class TodosTest {
 
-    SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+    SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям, напомнить купить Хлеб");
 
     String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
     Epic epic = new Epic(55, subtasks);
@@ -21,7 +20,7 @@ class TodosTest {
     );
 
     @Test
-    public void shouldAddThreeTasksOfDifferentType() {
+    public void shouldAddThreeTasksOfDifferentType() { // Находим все классы
         Todos todos = new Todos();
 
         todos.add(simpleTask);
@@ -35,7 +34,7 @@ class TodosTest {
     }
 
     @Test
-    public void shouldSearchInSimpleTasks() {
+    public void shouldSearchInSimpleTasks() { // Находим в одном классе
         Todos todos = new Todos();
         todos.add(simpleTask);
         todos.add(epic);
@@ -47,7 +46,7 @@ class TodosTest {
     }
 
     @Test
-    public void shouldSearchInEpicTasks() {
+    public void shouldSearchInEpicTasks() { // Находим в одном классе
         Todos todos = new Todos();
         todos.add(simpleTask);
         todos.add(epic);
@@ -59,7 +58,7 @@ class TodosTest {
     }
 
     @Test
-    public void shouldSearchInMeetingTasks() {
+    public void shouldSearchInMeetingTasks() { // Находим в одном классе
         Todos todos = new Todos();
         todos.add(simpleTask);
         todos.add(epic);
@@ -71,13 +70,25 @@ class TodosTest {
     }
 
     @Test
-    public void shouldEmptyResultNonExistentRequest() {
+    public void shouldEmptyResultNonExistentRequest() { // Не находим не в одном классе
         Todos todos = new Todos();
         todos.add(simpleTask);
         todos.add(epic);
         todos.add(meeting);
         String query = "Привет";
         Task[] expected = {};
+        Task[] actual = todos.search(query);
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldFindMultipleTasks() { //Находим несколько задач
+        Todos todos = new Todos();
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+        String query = "Хлеб";
+        Task[] expected = {simpleTask, epic};
         Task[] actual = todos.search(query);
         Assertions.assertArrayEquals(expected, actual);
     }
